@@ -1,10 +1,11 @@
 package ar.com.sourcesistemas.views;
 
+import ar.com.sourcesistemas.utils.ScreenPositionUtil;
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.beans.PropertyChangeListener;
 
 public class ScriptOrAliasView extends JFrame {
 
@@ -13,8 +14,10 @@ public class ScriptOrAliasView extends JFrame {
 
     public ScriptOrAliasView()
     {
+
         super("create a script or an alias");
         setLayout(new FlowLayout());
+        Point point = ScreenPositionUtil.getCenter();
         setSize(200,200);
 
         script = new JButton("Script");

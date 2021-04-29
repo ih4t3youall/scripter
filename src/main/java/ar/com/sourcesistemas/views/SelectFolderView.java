@@ -1,5 +1,7 @@
 package ar.com.sourcesistemas.views;
 
+import ar.com.sourcesistemas.utils.ScreenPositionUtil;
+
 import javax.swing.*;
 import java.awt.*;
 import java.io.File;
@@ -11,8 +13,11 @@ public class SelectFolderView extends JFrame {
     public SelectFolderView(File[] folders){
         super("select folder");
 
+        Point point = ScreenPositionUtil.getCenter();
+        setLocation(point);
+
+        setLocationRelativeTo(null);
         setLayout(new FlowLayout());
-        setSize(200,200);
         buttons = new JButton[folders.length];
 
         for (int i =0 ; i < folders.length;i++ ) {
