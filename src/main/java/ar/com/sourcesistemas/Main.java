@@ -15,18 +15,31 @@ import java.util.List;
 
 public class Main {
 
-    private FileHelper fileHelper = new FileHelper();
+    private FileHelper fileHelper ;
     private boolean isGoodName = true;
     private boolean isScript;
-    public static void main(String [] args) throws InterruptedException {
+    public static void main(String [] args) throws Exception {
         new Main();
     }
-    public Main() throws InterruptedException {
+    public Main() throws InterruptedException, IOException {
+        fileHelper = new FileHelper();
+        Terminal terminal =  new Terminal();
+        Alias alias = new Alias(fileHelper);
+        Script script = new Script(terminal,fileHelper);
+
+        List<String> config = fileHelper.readCreateConfigFile();
+        if (config.size() == 0)
+        {
+            String newBash = JOptionPane.showInputDialog(null, "with type of bash file?");
+            config.add(newBash);
+            fileHelper.writeCreateConfigFile(config);
+            fileHelper.setBashrc(newBash);
+        }else {
+            fileHelper.setBashrc(config.get(0));
+        }
 
         ScriptOrAliasView scriptOrAlias = new ScriptOrAliasView();
-        Terminal terminal =  new Terminal();
-        Script script = new Script(terminal,fileHelper);
-        Alias alias = new Alias(fileHelper);
+
         while(true){
             if(scriptOrAlias.isFinish() != ""){
                 isScript = scriptOrAlias.isFinish().equals("Script");
@@ -45,6 +58,19 @@ public class Main {
             } else {
                 System.out.println("no");
             }
+
+            File[] foldersNames = fileHelper.getFoldersNames();
+            SelectFolderView selectFolderView = new SelectFolderView(foldersNames);
+
+            String folderName = "";
+            while (true)
+            {
+                if (selectFolderView.isSelected()!= "")
+                    folderName = selectFolderView.isSelected();
+                    break;
+
+            }
+            fileHelper.setFolder(folderName);
 
             String fileName = JOptionPane.showInputDialog(null, "fileName ?");
             try {

@@ -1,10 +1,9 @@
 package ar.com.sourcesistemas.helpers;
 
 import javax.swing.*;
-import java.io.File;
-import java.io.FileFilter;
-import java.io.IOException;
+import java.io.*;
 import java.nio.file.Files;
+import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
@@ -22,6 +21,10 @@ public class FileHelper {
          this.actualPath = "";
          this.bashrc = System.getProperty("user.home")+"/.zshrc";
          this.fileName = "";
+    }
+
+    public void setBashrc(String newBashrc){
+        this.bashrc = System.getProperty("user.home")+"/"+newBashrc;
     }
 
     private boolean fileExists(String filePath){
@@ -168,5 +171,43 @@ public class FileHelper {
             bashrcList.forEach(System.out::println);
             e.printStackTrace();
         }
+    }
+
+    public List<String> readCreateConfigFile() throws IOException {
+        String tempFolderPath = this.basePath+"javaApps/";
+        String tempFilePath = this.basePath+"javaApps/"+"scripter/configFile";
+        boolean folderExists = Files.exists(Path.of(tempFolderPath));
+        boolean fileExists = Files.exists(Path.of(tempFilePath));
+        if (!folderExists)
+            System.exit(3);
+
+        if (!fileExists){
+            Files.createFile(Path.of(tempFilePath));
+        }
+        List<String> strings = Files.readAllLines(Path.of(tempFilePath));
+        for (String string : strings)
+            System.out.println(string);
+        return strings;
+
+
+
+    }
+
+    public void writeCreateConfigFile(List<String> configs) throws IOException {
+        String tempFilePath = this.basePath+"javaApps/"+"scripter/configFile";
+
+        try (FileWriter writer = new FileWriter(tempFilePath);
+             BufferedWriter bw = new BufferedWriter(writer)) {
+
+            for (String config : configs)
+                bw.write(config);
+
+        } catch (IOException e) {
+            System.err.format("IOException: %s%n", e);
+        }
+    }
+
+    public void setFolder(String folderName) {
+        this.actualPath = this.basePath+folderName+"/";
     }
 }
