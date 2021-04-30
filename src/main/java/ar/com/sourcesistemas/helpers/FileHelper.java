@@ -71,12 +71,12 @@ public class FileHelper {
             }
         }
 
-        if (folderName != "" ){
+        if (folderName != null ){
             this.createFolderIfNotExists(folderName);
         }
         else{
             System.out.println(" el folder name esta vacio");
-            System.exit(0);
+            System.exit(2);
         }
     }
 
@@ -196,8 +196,7 @@ public class FileHelper {
     public void writeCreateConfigFile(List<String> configs) throws IOException {
         String tempFilePath = this.basePath+"javaApps/"+"scripter/configFile";
 
-        try (FileWriter writer = new FileWriter(tempFilePath);
-             BufferedWriter bw = new BufferedWriter(writer)) {
+        try (FileWriter writer = new FileWriter(tempFilePath); BufferedWriter bw = new BufferedWriter(writer)) {
 
             for (String config : configs)
                 bw.write(config);

@@ -31,6 +31,8 @@ public class Main {
         if (config.size() == 0)
         {
             String newBash = JOptionPane.showInputDialog(null, "with type of bash file?");
+            if (newBash == null)
+                System.exit(3);
             config.add(newBash);
             fileHelper.writeCreateConfigFile(config);
             fileHelper.setBashrc(newBash);
@@ -58,6 +60,8 @@ public class Main {
             } else {
                 System.out.println("no");
             }
+            if (i ==2)
+                System.exit(5);
 
             File[] foldersNames = fileHelper.getFoldersNames();
             SelectFolderView selectFolderView = new SelectFolderView(foldersNames);
@@ -75,15 +79,21 @@ public class Main {
             fileHelper.setFolder(folderName);
 
             String fileName = JOptionPane.showInputDialog(null, "fileName ?");
+            if (fileName == null)
+                System.exit(3);
             try {
                 script.createScript(bashrc, fileName);
             } catch (IOException e) {
-                System.exit(5);
+                System.exit(4);
                 e.printStackTrace();
             }
         }else {
             String fileName = JOptionPane.showInputDialog(null, "aliasName?");
+            if (fileName == null)
+                System.exit(3);
             String command = JOptionPane.showInputDialog(null, "write alias");
+            if (command == null)
+                System.exit(3);
             alias.createAlias(bashrc, command, fileName);
         }
         fileHelper.writeBashrc(bashrc);

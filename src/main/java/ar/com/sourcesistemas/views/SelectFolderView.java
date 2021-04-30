@@ -4,6 +4,8 @@ import ar.com.sourcesistemas.utils.ScreenPositionUtil;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 import java.io.File;
 
 public class SelectFolderView extends JFrame {
@@ -12,6 +14,16 @@ public class SelectFolderView extends JFrame {
     private String selected = null;
     public SelectFolderView(File[] folders){
         super("select folder");
+        addWindowListener(new WindowAdapter()
+        {
+            @Override
+            public void windowClosing(WindowEvent e)
+            {
+                System.out.println("Closed");
+                e.getWindow().dispose();
+                System.exit(10);
+            }
+        });
 
         Point point = ScreenPositionUtil.getCenter();
         setLocation(point);

@@ -6,6 +6,8 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 
 public class ScriptOrAliasView extends JFrame {
 
@@ -14,8 +16,18 @@ public class ScriptOrAliasView extends JFrame {
 
     public ScriptOrAliasView()
     {
-
         super("create a script or an alias");
+        addWindowListener(new WindowAdapter()
+        {
+            @Override
+            public void windowClosing(WindowEvent e)
+            {
+                System.out.println("Closed");
+                e.getWindow().dispose();
+                System.exit(10);
+            }
+        });
+
         setLayout(new FlowLayout());
         Point point = ScreenPositionUtil.getCenter();
         setSize(200,200);
