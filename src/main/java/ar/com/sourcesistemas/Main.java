@@ -65,9 +65,11 @@ public class Main {
             String folderName = "";
             while (true)
             {
-                if (selectFolderView.isSelected()!= "")
+                if (selectFolderView.isSelected() != null) {
                     folderName = selectFolderView.isSelected();
                     break;
+                }
+                Thread.sleep(200);
 
             }
             fileHelper.setFolder(folderName);

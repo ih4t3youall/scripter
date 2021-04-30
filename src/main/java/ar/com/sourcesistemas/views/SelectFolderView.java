@@ -30,6 +30,7 @@ public class SelectFolderView extends JFrame {
             add(buttons[i]);
         }
         setVisible(true);
+        setSize(200,200);
         setResizable(true);
 
     }
