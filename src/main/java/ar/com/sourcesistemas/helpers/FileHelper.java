@@ -6,6 +6,7 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.stream.Stream;
 
@@ -176,17 +177,33 @@ public class FileHelper {
     public List<String> readCreateConfigFile() throws IOException {
         String tempFolderPath = this.basePath+"javaApps/";
         String tempFilePath = this.basePath+"javaApps/"+"scripter/configFile";
-        boolean folderExists = Files.exists(Path.of(tempFolderPath));
-        boolean fileExists = Files.exists(Path.of(tempFilePath));
+        boolean folderExists = new File(tempFolderPath).exists();
+        //boolean fileExists = Files.exists(Path.of(tempFilePath));
+        boolean fileExists = new File(tempFilePath).exists();
         if (!folderExists)
             System.exit(3);
 
         if (!fileExists){
-            Files.createFile(Path.of(tempFilePath));
+            //Files.createFile(Path.of(tempFilePath));
+            new File(tempFilePath).createNewFile();
         }
-        List<String> strings = Files.readAllLines(Path.of(tempFilePath));
-        for (String string : strings)
-            System.out.println(string);
+
+       // List<String> strings = Files.readAllLines(Path.of(tempFilePath));
+       // for (String string : strings)
+       //     System.out.println(string);
+
+       // String fileName = "c://lines.txt";
+
+        //read file into stream, try-with-resources
+        List<String> strings = new LinkedList<>();
+        try (Stream<String> stream = Files.lines(Paths.get(tempFilePath))) {
+
+           stream.forEach(x -> strings.add(x));
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
         return strings;
 
 
